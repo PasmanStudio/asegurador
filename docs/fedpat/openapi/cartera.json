@@ -1,0 +1,5550 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Cartera Public API",
+    "description": "API FedPat SandBox",
+    "termsOfService": "https://www.fedpat.com.ar/terminos",
+    "contact": {
+      "name": "API Support",
+      "url": "https://www.fedpat.com.ar/support",
+      "email": "soporte@fedpat.com.ar"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.6.5"
+  },
+  "servers": [
+    {
+      "url": "https://api-sandbox.fedpat.com.ar/v1",
+      "description": "API SandBox v1"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "JWT": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "paths": {
+    "/cartera/accesorios": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de accesorios",
+        "operationId": "getAccesorios",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/acreedores": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de acreedores de una cartera",
+        "description": "Retorna la lista de acreedores asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getAcreedores",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de acreedores (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de acreedores obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "acreedores": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "tipo": {
+                            "type": "string"
+                          },
+                          "descripcion": {
+                            "type": "string"
+                          },
+                          "tipo_asegurado": {
+                            "type": "string"
+                          },
+                          "calle_p": {
+                            "type": "string"
+                          },
+                          "numero_p": {
+                            "type": "string"
+                          },
+                          "piso_p": {
+                            "type": "string"
+                          },
+                          "depto_p": {
+                            "type": "string"
+                          },
+                          "codigo_postal_p": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_localidad_p": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "telefono_p": {
+                            "type": "string"
+                          },
+                          "fax_p": {
+                            "type": "string"
+                          },
+                          "calle_s": {
+                            "type": "string"
+                          },
+                          "numero_s": {
+                            "type": "string"
+                          },
+                          "piso_s": {
+                            "type": "string"
+                          },
+                          "depto_s": {
+                            "type": "string"
+                          },
+                          "codigo_postal_s": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_localidad_s": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "telefono_s": {
+                            "type": "string"
+                          },
+                          "fax_s": {
+                            "type": "string"
+                          },
+                          "contacto": {
+                            "type": "string"
+                          },
+                          "cargo": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/categorias-iva": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de categorías de IVA",
+        "operationId": "getCategoriasIva",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/certificados-accesorios": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de accesorios de los certificados de una cartera",
+        "description": "Retorna la lista de accesorios de los certificados asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getCertAcgetCertificadosAccesorios",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de accesorios de los certificados (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de accesorios de los certificados obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "accesorios": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo": {
+                            "type": "string"
+                          },
+                          "valor": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/certificados-comisiones": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de comisiones de los certificados de una cartera",
+        "description": "Retorna la lista de comisiones de los certificados asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getCertificadosComisiones",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de comisiones de los certificados (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de comisiones de los certificados obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "comisiones": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "rol": {
+                            "type": "string"
+                          },
+                          "productor": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "normal": {
+                            "type": "number"
+                          },
+                          "cobranza": {
+                            "type": "number"
+                          },
+                          "fomento": {
+                            "type": "number"
+                          },
+                          "otras": {
+                            "type": "number"
+                          },
+                          "variacion": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/certificados-componentes": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de componentes de los certificados de una cartera",
+        "description": "Retorna la lista de componentes de los certificados asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getCertificadosComponentes",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de componentes (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de componentes obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "componentes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo": {
+                            "type": "string"
+                          },
+                          "valor": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/certificados-endosos": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de endosos de los certificados de una cartera",
+        "description": "Retorna la lista de endosos de los certificados asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getCertificadosEndosos",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de endosos de los certificados (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de endosos de los certificados obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "endosos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "fecha_emision": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "vigencia_desde": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "vigencia_hasta": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "tipo_endoso": {
+                            "type": "string"
+                          },
+                          "codigo_motivo_endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_cotizacion": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "consecutivo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_plan": {
+                            "type": "string"
+                          },
+                          "tipo_contratante": {
+                            "type": "string"
+                          },
+                          "codigo_contratante": {
+                            "type": "string"
+                          },
+                          "tipo_asegurado": {
+                            "type": "string"
+                          },
+                          "codigo_asegurado": {
+                            "type": "string"
+                          },
+                          "moneda": {
+                            "type": "string"
+                          },
+                          "anexos": {
+                            "type": "string"
+                          },
+                          "ubicacion": {
+                            "type": "string"
+                          },
+                          "codigo_localidad": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_postal": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "suma_asegurada": {
+                            "type": "number"
+                          },
+                          "prima": {
+                            "type": "number"
+                          },
+                          "codigo_producto": {
+                            "type": "string"
+                          },
+                          "numero_solicitud": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/certificados-sumas": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de sumas de los certificados de una cartera",
+        "description": "Retorna la lista de sumas de los certificados asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getCertificadosSumas",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de sumas de los certificados (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de sumas de los certificados obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "certificados_sumas": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "suma_asegurada": {
+                            "type": "number"
+                          },
+                          "premio": {
+                            "type": "number"
+                          },
+                          "prima": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/certificados": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de certificados de una cartera",
+        "description": "Retorna la lista de certificados asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getCertificados",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de certificados (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de certificados obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "certificados": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "tipo_asegurado": {
+                            "type": "string"
+                          },
+                          "codigo_asegurado": {
+                            "type": "string"
+                          },
+                          "estado_certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "fecha_estado": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "fecha_emision": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "vigencia_desde": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "vigencia_hasta": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "renovacion_aumatica": {
+                            "type": "string"
+                          },
+                          "codigo_productor": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_acreedor": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "forma_pago": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_tarjeta": {
+                            "type": "string"
+                          },
+                          "codigo_tarjeta": {
+                            "type": "string"
+                          },
+                          "tipo_poliza": {
+                            "type": "string"
+                          },
+                          "moneda": {
+                            "type": "string"
+                          },
+                          "renovada_por": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "agencia": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "renueva_a": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "tipo_facturacion": {
+                            "type": "string"
+                          },
+                          "cant_facturacion": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/ciudades": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de ciudades",
+        "operationId": "getCiudades",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codProvincia": {
+                        "type": "string",
+                        "format": "byte"
+                      },
+                      "codCiudad": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "detCiudad": {
+                        "type": "string"
+                      },
+                      "codPostal": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "codPartido": {
+                        "type": "integer",
+                        "format": "int32"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/clientes": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de clientes de una cartera",
+        "description": "Retorna la lista de clientes asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getClientes",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de clientes (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de clientes obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "clientes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo": {
+                            "type": "string"
+                          },
+                          "nombre": {
+                            "type": "string"
+                          },
+                          "tipo_documento": {
+                            "type": "string"
+                          },
+                          "numero_documento": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "calle_p": {
+                            "type": "string"
+                          },
+                          "numero_p": {
+                            "type": "string"
+                          },
+                          "piso_p": {
+                            "type": "string"
+                          },
+                          "depto_p": {
+                            "type": "string"
+                          },
+                          "codigo_postal_p": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_localidad_p": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "telefono_p": {
+                            "type": "string"
+                          },
+                          "fax_p": {
+                            "type": "string"
+                          },
+                          "calle_s": {
+                            "type": "string"
+                          },
+                          "numero_s": {
+                            "type": "string"
+                          },
+                          "piso_s": {
+                            "type": "string"
+                          },
+                          "depto_s": {
+                            "type": "string"
+                          },
+                          "codigo_postal_s": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_localidad_s": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "telefono_s": {
+                            "type": "string"
+                          },
+                          "fax_s": {
+                            "type": "string"
+                          },
+                          "cuit": {
+                            "type": "string"
+                          },
+                          "tipo_sociedad": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "iva": {
+                            "type": "string"
+                          },
+                          "sexo": {
+                            "type": "string"
+                          },
+                          "fecha_alta": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "fecha_baja": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "tipo_asegurado": {
+                            "type": "string"
+                          },
+                          "cobrador": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "fecha_nacimiento": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/coberturas": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de coberturas",
+        "operationId": "getCoberturas",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ramo": {
+                        "type": "string",
+                        "format": "byte"
+                      },
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      },
+                      "seccion": {
+                        "type": "string",
+                        "format": "byte"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/componentes": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de componentes",
+        "operationId": "getComponentes",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/datos": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de datos internos utilizados en cotizaciones y pólizas ",
+        "operationId": "getDatos",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/estados": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de provincias",
+        "operationId": "getEstados",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/imputaciones": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de imputaciones de una cartera",
+        "description": "Retorna la lista de imputaciones asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getImputaciones",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de imputaciones (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de imputaciones obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "imputaciones": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_ingreso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_consecutivo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "imputacion": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "cobro": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "moneda": {
+                            "type": "string"
+                          },
+                          "monto": {
+                            "type": "number"
+                          },
+                          "origen": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/motivos-endoso": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de motivos de endosos",
+        "operationId": "getMotivosEndoso",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "tpMotivos": {
+                        "type": "string"
+                      },
+                      "codigo": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/multirramicas": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de multirramicas de una cartera",
+        "description": "Retorna la lista de multirramicas asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getMultirramicas",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de multirramicas (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de multirramicas obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "multirramicas": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "referencia": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "estado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "seccion": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "poliza": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "productor": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/origen-ingreso": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de orígenes de ingreso",
+        "operationId": "getOrigenIngreso",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/polizas-textos": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de textos de pólizas de una cartera",
+        "description": "Retorna la lista de textos de las pólizas asociadas a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getPolizasTextos",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de textos de pólizas (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de textos de pólizas obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "polizas_textos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "consecutivo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "detalle_texto": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/prodplanes": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de planes",
+        "operationId": "getProdPlanes",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "seccion": {
+                        "type": "string",
+                        "format": "byte"
+                      },
+                      "codProductor": {
+                        "type": "string"
+                      },
+                      "plan": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/productores": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de productores de una cartera",
+        "description": "Retorna la lista de productores asociados a la cartera",
+        "operationId": "getProductores",
+        "parameters": [
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de productores obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "productores": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "nombre": {
+                            "type": "string"
+                          },
+                          "codigo_localidad": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "direccion": {
+                            "type": "string"
+                          },
+                          "matricula": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "organizador": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "agencia": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/productos": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de productos",
+        "operationId": "getProductos",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ramo": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/productos-datos": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de datos de pólizas de una cartera",
+        "description": "Retorna la lista de datos de las pólizas asociadas a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getProductosDatos",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de datos de pólizas (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de datos de pólizas obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "producto_datos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_dato": {
+                            "type": "string"
+                          },
+                          "valor_dato": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/ramos-contables": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de ramos contables",
+        "operationId": "getRamosContables",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/ramos-polizas": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de ramos de pólizas",
+        "operationId": "getRamosPoliza",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/razon-social": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de razones sociales de clientes",
+        "operationId": "getRazonSocial",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/recibos": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de recibos de cartera",
+        "description": "Retorna la lista de recibos asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getRecibos",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de recibos (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de recibos obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "recibos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "fecha_desde": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "estado_recibo": {
+                            "type": "string"
+                          },
+                          "consecutivo_cuota": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_anticipo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "prima_pura": {
+                            "type": "number"
+                          },
+                          "prima": {
+                            "type": "number"
+                          },
+                          "prima_tradicional": {
+                            "type": "number"
+                          },
+                          "numero_recibo": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/riesgos-cubiertos": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de riesgos cubiertos de una cartera",
+        "description": "Retorna la lista de riesgos cubiertos asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getRiesgosCubiertos",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de riesgos cubiertos (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de riesgos cubiertos obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "riesgos_cubiertos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo_ramo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "numero_poliza": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "certificado": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "endoso": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_ramo_cobertura": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "codigo_cobertura": {
+                            "type": "string"
+                          },
+                          "suma_asegurada": {
+                            "type": "number"
+                          },
+                          "prima": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/sucursales": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de sucursales",
+        "operationId": "getSucursales",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/tablas": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de datos de tablas de una cartera",
+        "description": "Retorna la lista de datos de las tablas asociados a la cartera para la fecha especificada, filtrados por el tipo de productor autenticado.",
+        "operationId": "getTablas",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha para la consulta de datos de tablas (formato dd/MM/yyyy)",
+            "required": true,
+            "schema": {
+              "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+              "type": "string"
+            },
+            "example": "01/01/2025"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
+            "description": "Tipo de productor para obtener la cartera",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "I",
+                "O",
+                "G"
+              ]
+            },
+            "example": "I"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de datos de tablas obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fecha_solicitada": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "fecha_solicitud": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "tablas": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "codigo": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "indice": {
+                            "type": "string"
+                          },
+                          "descripcion": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/tasas-cambios": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de tasas de cambio",
+        "operationId": "getTasasCambio",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "fechaCambio": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "tasaCambio": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/tipos-facturacion": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de tipos de facturación",
+        "operationId": "getTiposFacturacion",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cartera/tipos-tarjetas": {
+      "get": {
+        "tags": [
+          "Cartera Public API"
+        ],
+        "summary": "Obtener listado de tipos de tarjeta",
+        "operationId": "getTiposTarjetas",
+        "responses": {
+          "200": {
+            "description": "Operacion exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigo": {
+                        "type": "string"
+                      },
+                      "descripcion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  }
+}

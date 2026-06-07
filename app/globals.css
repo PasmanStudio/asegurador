@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
+/* ─────────────────────────── Paleta de marca ───────────────────────────
+   Identidad de Sabrina Descalzi: rosa/magenta + gris + blanco.
+   Tomada de su Instagram (@sabrinadescalzi.ar). */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #2b2b2f; /* gris carbón */
+
+  --brand-50: #fdf2f8;
+  --brand-100: #fce7f3;
+  --brand-200: #fbcfe8;
+  --brand-300: #f9a8d4;
+  --brand-500: #ec4899;
+  --brand-600: #db2777;
+  --brand-700: #be185d;
+  --brand-900: #831843;
+
+  /* Acento para CTAs: magenta más profundo */
+  --accent-500: #e11d48;
+  --accent-600: #be123c;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-900: var(--brand-900);
+
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+
+  --font-sans: var(--font-geist-sans);
+  /* Monoespaciada del sistema: no carga ninguna fuente web (no se usa en la UI). */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-serif: var(--font-serif-display);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Forzar controles nativos (selects, date pickers) en claro, aunque el SO
+     esté en modo oscuro. Evita el "flash negro" al abrir un desplegable. */
+  color-scheme: light;
+}
+
+/* Foco visible accesible para elementos sin un ring propio. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--brand-600);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respetar prefers-reduced-motion para las animaciones de entrada. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal-up 0.6s ease-out both;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Selects: quitar la flecha nativa y dejar espacio para una flecha propia. */
+select.field-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23db2777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.5rem;
+}
+
+/* Títulos con serif elegante para evocar el estilo de su marca */
+.font-display {
+  font-family: var(--font-serif-display), Georgia, serif;
 }

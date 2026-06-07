@@ -1,0 +1,379 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Inspeccion",
+    "description": "API FedPat SandBox",
+    "termsOfService": "https://www.fedpat.com.ar/terminos",
+    "contact": {
+      "name": "API Support",
+      "url": "https://www.fedpat.com.ar/support",
+      "email": "soporte@fedpat.com.ar"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.6.5"
+  },
+  "servers": [
+    {
+      "url": "https://api-sandbox.fedpat.com.ar/v1",
+      "description": "API SandBox v1"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "JWT": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "paths": {
+    "/inspeccion-automotores/{cotizacion}": {
+      "post": {
+        "tags": [
+          "Inspeccion"
+        ],
+        "summary": "Inserta la inspeccion de AUTOMOTORES que envia el productor",
+        "operationId": "postInspeccionAutomotores",
+        "parameters": [
+          {
+            "name": "cotizacion",
+            "in": "path",
+            "description": "Número de cotización",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "color": {
+                    "type": "string",
+                    "description": "Color del vehiculo",
+                    "example": "azul"
+                  },
+                  "danios": {
+                    "type": "string",
+                    "description": "Daños que se observan en el vehiculo",
+                    "example": "Leve raya en puerta delantera derecha"
+                  },
+                  "observaciones": {
+                    "type": "string",
+                    "description": "Observaciones adicionales del vehiculo",
+                    "example": "El vehiculo posee cristales con polarizados"
+                  },
+                  "numero_inspeccion": {
+                    "type": "integer",
+                    "description": "Numero de inspeccion generado",
+                    "format": "int32",
+                    "readOnly": true,
+                    "example": 40000
+                  },
+                  "estado_general": {
+                    "type": "string",
+                    "description": "Estado general del vehiculo. \nLos valores permitidos son:\n* B = BUENO\n* M = MALO\n* R = REGULAR",
+                    "example": "B",
+                    "enum": [
+                      "B",
+                      "M",
+                      "R"
+                    ]
+                  },
+                  "estado_cerradura": {
+                    "type": "string",
+                    "description": "Estado de la CERRADURA del vehiculo. \nLos valores permitidos son:\n* S = SIN DAÑO \n* C = CON DAÑO",
+                    "example": "S",
+                    "enum": [
+                      "S",
+                      "C"
+                    ]
+                  },
+                  "estado_antena": {
+                    "type": "string",
+                    "description": "Estado de la ANTENA del vehiculo. \nLos valores permitidos son:\n* S = SIN DAÑO \n* C = CON DAÑO",
+                    "example": "S",
+                    "enum": [
+                      "S",
+                      "C"
+                    ]
+                  },
+                  "estado_parabrisas": {
+                    "type": "string",
+                    "description": "Estado del PARABRISAS del vehiculo. \nLos valores permitidos son:\n* S = SIN DAÑO \n* C = CON DAÑO",
+                    "example": "S",
+                    "enum": [
+                      "S",
+                      "C"
+                    ]
+                  },
+                  "estado_luneta": {
+                    "type": "string",
+                    "description": "Estado de la LUNETA del vehiculo. \nLos valores permitidos son:\n* S = SIN DAÑO \n* C = CON DAÑO",
+                    "example": "S",
+                    "enum": [
+                      "S",
+                      "C"
+                    ]
+                  },
+                  "cubierta_original": {
+                    "type": "string",
+                    "description": "Indica si el vehiculo posee CUBIERTAS ORIGINALES. \nLos valores permitidos son:\n* S = SI\n* N = NO",
+                    "example": "S",
+                    "enum": [
+                      "S",
+                      "N"
+                    ]
+                  },
+                  "auxilio_original": {
+                    "type": "string",
+                    "description": "Indica si el vehiculo posee AUXILIO ORIGINAL. \nLos valores permitidos son:\n* S = SI\n* N = NO",
+                    "example": "S",
+                    "enum": [
+                      "S",
+                      "N"
+                    ]
+                  },
+                  "kilometros_recorridos": {
+                    "type": "integer",
+                    "description": "Kilometraje del vehiculo",
+                    "format": "int64",
+                    "example": 120000
+                  },
+                  "cantidad_asientos": {
+                    "type": "integer",
+                    "description": "Cantidad de asientos que contiene el vehiculo (en caso de ser necesario).",
+                    "format": "int32",
+                    "example": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Operacion exitosa",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "color": {
+                        "type": "string",
+                        "description": "Color del vehiculo",
+                        "example": "azul"
+                      },
+                      "danios": {
+                        "type": "string",
+                        "description": "Daños que se observan en el vehiculo",
+                        "example": "Leve raya en puerta delantera derecha"
+                      },
+                      "observaciones": {
+                        "type": "string",
+                        "description": "Observaciones adicionales del vehiculo",
+                        "example": "El vehiculo posee cristales con polarizados"
+                      },
+                      "numero_inspeccion": {
+                        "type": "integer",
+                        "description": "Numero de inspeccion generado",
+                        "format": "int32",
+                        "readOnly": true,
+                        "example": 40000
+                      },
+                      "estado_general": {
+                        "type": "string",
+                        "description": "Estado general del vehiculo. \nLos valores permitidos son:\n* B = BUENO\n* M = MALO\n* R = REGULAR",
+                        "example": "B",
+                        "enum": [
+                          "B",
+                          "M",
+                          "R"
+                        ]
+                      },
+                      "estado_cerradura": {
+                        "type": "string",
+                        "description": "Estado de la CERRADURA del vehiculo. \nLos valores permitidos son:\n* S = SIN DAÑO \n* C = CON DAÑO",
+                        "example": "S",
+                        "enum": [
+                          "S",
+                          "C"
+                        ]
+                      },
+                      "estado_antena": {
+                        "type": "string",
+                        "description": "Estado de la ANTENA del vehiculo. \nLos valores permitidos son:\n* S = SIN DAÑO \n* C = CON DAÑO",
+                        "example": "S",
+                        "enum": [
+                          "S",
+                          "C"
+                        ]
+                      },
+                      "estado_parabrisas": {
+                        "type": "string",
+                        "description": "Estado del PARABRISAS del vehiculo. \nLos valores permitidos son:\n* S = SIN DAÑO \n* C = CON DAÑO",
+                        "example": "S",
+                        "enum": [
+                          "S",
+                          "C"
+                        ]
+                      },
+                      "estado_luneta": {
+                        "type": "string",
+                        "description": "Estado de la LUNETA del vehiculo. \nLos valores permitidos son:\n* S = SIN DAÑO \n* C = CON DAÑO",
+                        "example": "S",
+                        "enum": [
+                          "S",
+                          "C"
+                        ]
+                      },
+                      "cubierta_original": {
+                        "type": "string",
+                        "description": "Indica si el vehiculo posee CUBIERTAS ORIGINALES. \nLos valores permitidos son:\n* S = SI\n* N = NO",
+                        "example": "S",
+                        "enum": [
+                          "S",
+                          "N"
+                        ]
+                      },
+                      "auxilio_original": {
+                        "type": "string",
+                        "description": "Indica si el vehiculo posee AUXILIO ORIGINAL. \nLos valores permitidos son:\n* S = SI\n* N = NO",
+                        "example": "S",
+                        "enum": [
+                          "S",
+                          "N"
+                        ]
+                      },
+                      "kilometros_recorridos": {
+                        "type": "integer",
+                        "description": "Kilometraje del vehiculo",
+                        "format": "int64",
+                        "example": 120000
+                      },
+                      "cantidad_asientos": {
+                        "type": "integer",
+                        "description": "Cantidad de asientos que contiene el vehiculo (en caso de ser necesario).",
+                        "format": "int32",
+                        "example": 10
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensaje": {
+                      "type": "string"
+                    },
+                    "codigo_error": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas, el token ingresado no es correcto",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensaje": {
+                      "type": "string"
+                    },
+                    "codigo_error": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso restringido, no se poseen los permisos para acceder al recurso",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensaje": {
+                      "type": "string"
+                    },
+                    "codigo_error": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ocurrió un error inesperado al realizar la operación",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensaje": {
+                      "type": "string"
+                    },
+                    "codigo_error": {
+                      "type": "string"
+                    },
+                    "time": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  }
+}
