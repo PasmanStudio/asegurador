@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Handshake, Building2, Zap } from "lucide-react";
 import { site, getRamo, waLink } from "@/lib/site";
 import RamoCard from "@/components/RamoCard";
+import CompanyLogos from "@/components/CompanyLogos";
 import Button from "@/components/ui/Button";
 
 const beneficios = [
@@ -87,32 +88,7 @@ export default function Home() {
           <p className="text-center text-sm font-medium uppercase tracking-wider text-slate-500">
             Trabajo con las mejores compañías
           </p>
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-4">
-            {site.companias.map((c) =>
-              c.logo ? (
-                <div
-                  key={c.nombre}
-                  className="flex h-16 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 shadow-sm"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={c.logo}
-                    alt={`Logo de ${c.nombre}`}
-                    className="max-h-8 w-auto max-w-[120px] object-contain"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              ) : (
-                <span
-                  key={c.nombre}
-                  className="flex h-16 items-center justify-center text-base font-semibold text-slate-400"
-                >
-                  {c.nombre}
-                </span>
-              ),
-            )}
-          </div>
+          <CompanyLogos className="mt-6 sm:justify-center" />
         </div>
       </section>
 

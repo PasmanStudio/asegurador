@@ -1,6 +1,26 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 
+/** Ícono de Instagram (inline; esta versión de lucide-react no trae íconos de marcas). */
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
@@ -46,8 +66,10 @@ export default function Footer() {
                 href={site.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-brand-600"
+                aria-label="Instagram de Sabrina Descalzi"
+                className="inline-flex items-center gap-1.5 hover:text-brand-600"
               >
+                <InstagramIcon className="h-4 w-4" />
                 @sabrinadescalzi.ar
               </a>
             </li>

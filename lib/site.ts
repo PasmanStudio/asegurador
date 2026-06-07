@@ -28,6 +28,8 @@ export type Compania = {
   integracion: "api" | "pendiente" | "manual";
   /** Ruta al logo en /public (png/svg/webp con fondo transparente) */
   logo?: string;
+  /** Si el logo es blanco (hecho para fondo oscuro), lo invertimos a negro para que se vea en el chip blanco. */
+  logoInvert?: boolean;
   /** Nota interna opcional */
   nota?: string;
 };
@@ -319,7 +321,7 @@ export const site = {
     { nombre: "La Meridional", integracion: "pendiente", logo: "/meridional-logo.svg" },
     { nombre: "Galicia Seguros", integracion: "pendiente", logo: "/galiciaSeguros.webp" },
     { nombre: "Barbuss", integracion: "pendiente", logo: "/barbuss.png" },
-    { nombre: "Coris", integracion: "pendiente", logo: "/CorisAsistencia.png", nota: "Asistencia al viajero" },
+    { nombre: "Coris", integracion: "pendiente", logo: "/coris-color.svg", nota: "Asistencia al viajero" },
   ] as Compania[],
 };
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import CompanyLogos from "@/components/CompanyLogos";
 
 export const metadata: Metadata = {
   title: "Sobre mí",
@@ -64,16 +65,7 @@ export default function SobreMiPage() {
 
       <div className="mt-10">
         <h2 className="text-xl font-semibold text-slate-900">Compañías con las que trabajo</h2>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {site.companias.map((c) => (
-            <span
-              key={c.nombre}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700"
-            >
-              {c.nombre}
-            </span>
-          ))}
-        </div>
+        <CompanyLogos className="mt-4 sm:justify-start" />
       </div>
 
       <div className="mt-12 rounded-2xl bg-brand-700 px-8 py-10 text-center text-white">
