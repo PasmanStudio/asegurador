@@ -26,6 +26,8 @@ export type Compania = {
   nombre: string;
   /** Estado de integración del cotizador */
   integracion: "api" | "pendiente" | "manual";
+  /** Ruta al logo en /public (png/svg/webp con fondo transparente) */
+  logo?: string;
   /** Nota interna opcional */
   nota?: string;
 };
@@ -312,12 +314,12 @@ export const site = {
 
   // ───────────────────────────── Compañías ───────────────────────────────────
   companias: [
-    { nombre: "Federación Patronal", integracion: "api", nota: "API REST (OAuth) — cotizador online" },
-    { nombre: "Mercantil Andina", integracion: "pendiente" },
-    { nombre: "La Meridional", integracion: "pendiente" },
-    { nombre: "Galicia Seguros", integracion: "pendiente" },
-    { nombre: "Barbuss", integracion: "pendiente" },
-    { nombre: "Coris", integracion: "pendiente", nota: "Asistencia al viajero" },
+    { nombre: "Federación Patronal", integracion: "api", logo: "/FED-PATRONAL-1024x256.png", nota: "API REST (OAuth) — cotizador online" },
+    { nombre: "Mercantil Andina", integracion: "pendiente", logo: "/mercantilandina.svg" },
+    { nombre: "La Meridional", integracion: "pendiente", logo: "/meridional-logo.svg" },
+    { nombre: "Galicia Seguros", integracion: "pendiente", logo: "/galiciaSeguros.webp" },
+    { nombre: "Barbuss", integracion: "pendiente", logo: "/barbuss.png" },
+    { nombre: "Coris", integracion: "pendiente", logo: "/CorisAsistencia.png", nota: "Asistencia al viajero" },
   ] as Compania[],
 };
 
