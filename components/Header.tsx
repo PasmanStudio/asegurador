@@ -6,12 +6,12 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { site, waLink } from "@/lib/site";
 import Button from "@/components/ui/Button";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/ramos", label: "Seguros" },
   { href: "/cotizar", label: "Cotizar" },
-  { href: "/blog", label: "Blog" },
   { href: "/sobre-mi", label: "Sobre mí" },
   { href: "/contacto", label: "Contacto" },
 ];
@@ -68,6 +68,7 @@ export default function Header() {
             size="sm"
             className="hidden sm:inline-flex"
           >
+            <WhatsAppIcon className="h-4 w-4" />
             WhatsApp
           </Button>
 
@@ -109,6 +110,7 @@ export default function Header() {
                 Cotizar
               </Button>
               <Button href={waLink()} variant="whatsapp" size="sm">
+                <WhatsAppIcon className="h-4 w-4" />
                 WhatsApp
               </Button>
             </div>

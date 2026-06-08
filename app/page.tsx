@@ -32,7 +32,7 @@ const ramosDestacados = [
   "hogar",
   "comercio",
   "asistencia-viajero",
-  "vida-familia",
+  "celulares",
 ]
   .map((slug) => getRamo(slug))
   .filter((r): r is NonNullable<typeof r> => r !== undefined);
@@ -71,8 +71,8 @@ export default function Home() {
           {/* Foto de Sabrina */}
           <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/20 lg:max-w-none">
             <Image
-              src="/sabrina-oficina.webp"
-              alt="Sabrina Descalzi, Productora Asesora de Seguros, en su oficina"
+              src="/home.jpg"
+              alt="Sabrina Descalzi, Productora Asesora de Seguros"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"

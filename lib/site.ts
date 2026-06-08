@@ -79,13 +79,13 @@ export const site = {
       numero: "1",
       titulo: "Me contás qué necesitás",
       texto:
-        "Por WhatsApp, el formulario o una llamada. Me decís qué querés asegurar y tu situación.",
+        "Por WhatsApp o el formulario. Me decís qué querés asegurar y tu situación.",
     },
     {
       numero: "2",
       titulo: "Comparo por vos",
       texto:
-        "Cotizo en las principales compañías y te explico las opciones en criollo, sin letra chica.",
+        "Cotizo en las principales compañías y te explico cuento las diferentes opciones.",
     },
     {
       numero: "3",
@@ -112,10 +112,11 @@ export const site = {
         "Te ayudo a comparar coberturas de automotor entre las principales compañías y elegir la que mejor se adapta a tu vehículo y tu presupuesto, desde responsabilidad civil obligatoria hasta todo riesgo con franquicia. También seguros para autos híbridos y eléctricos.",
       icono: "🚗",
       coberturas: [
-        "Responsabilidad Civil (obligatoria)",
-        "Terceros completo (incendio, robo y total)",
+        "Responsabilidad Civil",
+        "Responsabilidad Civil + robo total",
         "Todo riesgo con franquicia",
-        "Autos híbridos y eléctricos",
+        "Terceros completos",
+        "Terceros completos premium",
       ],
       cotizable: true,
     },
@@ -129,9 +130,10 @@ export const site = {
       icono: "🏍️",
       coberturas: [
         "Responsabilidad Civil",
-        "Robo e incendio",
-        "Cobertura por accidente",
-        "Asesoramiento personalizado",
+        "Servicio de asistencia",
+        "Robo o hurto total",
+        "Incendio total",
+        "Destrucción total",
       ],
       cotizable: true,
     },
@@ -146,8 +148,9 @@ export const site = {
       coberturas: [
         "Incendio de edificio y contenido",
         "Robo y hurto de contenido",
-        "Daños por agua y eléctricos",
+        "Daños por agua y cristales",
         "Responsabilidad civil",
+        "Cobertura todo riesgo electro",
       ],
     },
     {
@@ -166,36 +169,6 @@ export const site = {
       ],
     },
     {
-      slug: "art",
-      nombre: "ART",
-      resumen:
-        "Aseguradora de Riesgos del Trabajo para tu empresa y tus empleados, según la ley.",
-      descripcion:
-        "Cumplí con la normativa laboral y protegé a tu personal ante accidentes y enfermedades de trabajo. Te asesoro para elegir la ART adecuada para tu actividad y plantilla.",
-      icono: "👷",
-      coberturas: [
-        "Cobertura de accidentes de trabajo",
-        "Enfermedades profesionales",
-        "Prestaciones médicas",
-        "Cumplimiento legal",
-      ],
-    },
-    {
-      slug: "caucion",
-      nombre: "Seguro de Caución",
-      resumen:
-        "Garantías y seguros de caución para contratos, alquileres y licitaciones.",
-      descripcion:
-        "Resolvé las garantías que te piden en contratos, alquileres, obras o licitaciones con un seguro de caución. Te ayudo a gestionarlo de forma ágil y al mejor costo.",
-      icono: "📑",
-      coberturas: [
-        "Garantía de alquiler",
-        "Mantenimiento de oferta",
-        "Ejecución de contrato",
-        "Garantías aduaneras y de obra",
-      ],
-    },
-    {
       slug: "asistencia-viajero",
       nombre: "Asistencia al Viajero",
       resumen:
@@ -210,21 +183,6 @@ export const site = {
         "Planes por días y destino",
       ],
       cotizable: true,
-    },
-    {
-      slug: "vida-familia",
-      nombre: "Seguro de Vida",
-      resumen:
-        "Tranquilidad para vos y tu familia con coberturas de vida y accidentes personales.",
-      descripcion:
-        "Protegé a quienes más querés con un seguro de vida adaptado a tu etapa: cobertura por fallecimiento, invalidez y accidentes personales, con sumas aseguradas a tu medida.",
-      icono: "💙",
-      coberturas: [
-        "Fallecimiento por cualquier causa",
-        "Invalidez total y permanente",
-        "Accidentes personales",
-        "Sumas aseguradas flexibles",
-      ],
     },
     {
       slug: "tecnologia",
@@ -269,21 +227,6 @@ export const site = {
         "Invalidez total o parcial",
         "Gastos médicos por accidente",
         "Cobertura las 24 horas",
-      ],
-    },
-    {
-      slug: "retiro",
-      nombre: "Seguro de Retiro",
-      resumen:
-        "Armá tu futuro con un plan de ahorro a largo plazo para complementar tu jubilación.",
-      descripcion:
-        "Un seguro de retiro te permite ahorrar de forma planificada para complementar tu jubilación y cumplir tus objetivos. Te ayudo a definir el plan que se ajuste a tu capacidad de ahorro y horizonte.",
-      icono: "🌱",
-      coberturas: [
-        "Ahorro a largo plazo",
-        "Complemento jubilatorio",
-        "Aportes flexibles",
-        "Beneficios impositivos",
       ],
     },
   ] as Ramo[],
