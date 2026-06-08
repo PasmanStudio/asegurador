@@ -6,7 +6,7 @@ import RamoIcon from "@/components/ui/RamoIcon";
 export const metadata: Metadata = {
   title: "Cotizá tu seguro",
   description:
-    "Elegí qué querés asegurar y cotizá online: auto, moto, hogar, comercio, ART, caución, asistencia al viajero y más.",
+    "Elegí qué querés asegurar y cotizá online: auto, moto, hogar, asistencia al viajero y más.",
 };
 
 export default function CotizarHubPage() {

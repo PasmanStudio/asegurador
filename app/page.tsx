@@ -30,8 +30,8 @@ const ramosDestacados = [
   "automotor",
   "motos",
   "hogar",
-  "comercio",
   "asistencia-viajero",
+  "tecnologia",
   "celulares",
 ]
   .map((slug) => getRamo(slug))
@@ -55,6 +55,20 @@ export default function Home() {
               experiencia. Te ayudo a proteger lo que más valorás, con la mejor cobertura
               y al precio justo.
             </p>
+            <ul className="mt-6 space-y-2.5 text-brand-50">
+              {[
+                "Atención 100% online en todo el país",
+                "Comparo las mejores compañías por vos",
+                "Respuesta rápida y trato cercano",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-xs">
+                    ✓
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button href="/cotizar" variant="primary">
                 Cotizar ahora
@@ -69,7 +83,7 @@ export default function Home() {
           </div>
 
           {/* Foto de Sabrina */}
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/20 lg:max-w-none">
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/20 lg:max-w-md">
             <Image
               src="/home.jpg"
               alt="Sabrina Descalzi, Productora Asesora de Seguros"

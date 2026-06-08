@@ -23,8 +23,8 @@ export default function SobreMiPage() {
         <p>
           Soy Sabrina Descalzi, Productora Asesora de Seguros matriculada en la
           Superintendencia de Seguros de la Nación (Matrícula Nacional 89115). Tengo más
-          de 10 años de experiencia asesorando en seguros de auto, hogar, comercio, ART,
-          caución y más.
+          de 10 años de experiencia asesorando en seguros de auto, moto, hogar,
+          asistencia al viajero y más.
         </p>
         <p>
           Mi trabajo es simple: ayudarte a proteger lo que más valorás, con la mejor

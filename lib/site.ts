@@ -85,7 +85,7 @@ export const site = {
       numero: "2",
       titulo: "Comparo por vos",
       texto:
-        "Cotizo en las principales compañías y te explico cuento las diferentes opciones.",
+        "Cotizo en las principales compañías y te cuento las diferentes opciones.",
     },
     {
       numero: "3",
@@ -151,21 +151,6 @@ export const site = {
         "Daños por agua y cristales",
         "Responsabilidad civil",
         "Cobertura todo riesgo electro",
-      ],
-    },
-    {
-      slug: "comercio",
-      nombre: "Seguro de Comercio",
-      resumen:
-        "Protegé tu negocio: incendio, robo, cristales y responsabilidad civil.",
-      descripcion:
-        "Cobertura pensada para comercios y pymes: protección del local y la mercadería ante incendio y robo, cristales, responsabilidad civil y más, para que tu actividad no se detenga.",
-      icono: "🏪",
-      coberturas: [
-        "Incendio de edificio y mercadería",
-        "Robo de contenido y dinero",
-        "Cristales y vidrios",
-        "Responsabilidad civil de explotación",
       ],
     },
     {

@@ -5,7 +5,7 @@ import RamoCard from "@/components/RamoCard";
 export const metadata: Metadata = {
   title: "Seguros",
   description:
-    "Conocé todos los seguros que ofrezco: automotor, hogar, vida, asistencia al viajero y comercio.",
+    "Conocé todos los seguros que ofrezco: automotor, moto, hogar, asistencia al viajero y más.",
 };
 
 export default function RamosPage() {
