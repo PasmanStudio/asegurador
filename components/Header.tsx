@@ -110,16 +110,6 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button
-              href={waLink()}
-              variant="whatsapp"
-              size="sm"
-              className="hidden sm:inline-flex"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              WhatsApp
-            </Button>
-
             {/* Botón hamburguesa (mobile) */}
             <button
               type="button"
