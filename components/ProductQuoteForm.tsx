@@ -67,12 +67,20 @@ export default function ProductQuoteForm({
     const f = new FormData(e.currentTarget);
     const get = (k: string) => (f.get(k) ? String(f.get(k)).trim() : "");
 
-    const detalle = secciones
-      .flatMap((s) => s.campos)
-      .filter((c) => !CONTACTO.includes(c.name))
-      .map((c) => (get(c.name) ? `${c.label}: ${get(c.name)}` : ""))
-      .filter(Boolean)
-      .join("\n");
+    // Arma el mensaje agrupado por sección para que Sabri lo lea fácil en WhatsApp.
+    // Las secciones de contacto se separan (van al payload raíz), el resto se
+    // formatea como bloques con título y bullet points.
+    const bloques = secciones
+      .filter((s) => !s.campos.every((c) => CONTACTO.includes(c.name)))
+      .map((s) => {
+        const filas = s.campos
+          .filter((c) => !CONTACTO.includes(c.name) && get(c.name))
+          .map((c) => `  • ${c.label}: ${get(c.name)}`);
+        return filas.length ? `*${s.titulo.toUpperCase()}*\n${filas.join("\n")}` : "";
+      })
+      .filter(Boolean);
+
+    const detalle = bloques.join("\n\n");
 
     const payload = {
       nombre: get("nombre"),
@@ -213,7 +221,7 @@ const fieldClass =
   "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100";
 
 function Field({ campo, active }: { campo: Campo; active: boolean }) {
-  const { name, label, tipo = "text", required, placeholder, options, full } = campo;
+  const { name, label, tipo = "text", required, placeholder, options, full, pattern, inputMode, min, max } = campo;
   // Solo el paso activo exige sus campos (evita validar pasos ocultos).
   const req = required && active;
   return (
@@ -245,6 +253,10 @@ function Field({ campo, active }: { campo: Campo; active: boolean }) {
           type={tipo}
           required={req}
           placeholder={placeholder}
+          pattern={pattern}
+          inputMode={inputMode}
+          min={min}
+          max={max}
           className={fieldClass}
         />
       )}

@@ -13,6 +13,14 @@ export type Campo = {
   placeholder?: string;
   options?: string[];
   full?: boolean;
+  /** Patrón HTML5 para validación extra (ej: solo dígitos en DNI/CP). */
+  pattern?: string;
+  /** Modo de teclado en mobile (ej: "numeric" para campos numéricos). */
+  inputMode?: "text" | "numeric" | "decimal" | "tel" | "email" | "url";
+  /** Valor mínimo para inputs numéricos/fecha. */
+  min?: string | number;
+  /** Valor máximo para inputs numéricos/fecha. */
+  max?: string | number;
 };
 
 export type Seccion = { titulo: string; campos: Campo[] };
@@ -48,7 +56,7 @@ export const formConfigs: Record<string, Seccion[]> = {
         { name: "linea", label: "Línea / modelo", required: true, placeholder: "Ej. Gol Trend, Onix, Kwid…" },
         { name: "anio", label: "Año del modelo", tipo: "select", required: true, options: aniosStr },
         { name: "provincia", label: "Provincia donde circula", tipo: "select", required: true, options: provincias },
-        { name: "cp", label: "Código postal", required: true, placeholder: "1407" },
+        { name: "cp", label: "Código postal", required: true, placeholder: "1407", tipo: "number", inputMode: "numeric", min: 1000, max: 9999 },
       ],
     },
     {
@@ -64,8 +72,8 @@ export const formConfigs: Record<string, Seccion[]> = {
       titulo: "Datos personales",
       campos: [
         { name: "tipoDoc", label: "Tipo de documento", tipo: "select", required: true, options: ["DNI", "CUIT", "Pasaporte"] },
-        { name: "nroDoc", label: "Número de documento", required: true, placeholder: "Sin puntos" },
-        { name: "nacimiento", label: "Fecha de nacimiento", tipo: "date", required: true },
+        { name: "nroDoc", label: "Número de documento", required: true, placeholder: "Sin puntos", inputMode: "numeric", pattern: "[0-9]{6,11}" },
+        { name: "nacimiento", label: "Fecha de nacimiento", tipo: "date", required: true, max: new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split("T")[0] },
       ],
     },
     contacto,
@@ -81,15 +89,15 @@ export const formConfigs: Record<string, Seccion[]> = {
         { name: "cilindrada", label: "Cilindrada", tipo: "select", required: true, options: ["Hasta 150cc", "150 a 300cc", "300 a 500cc", "Más de 500cc"] },
         { name: "anio", label: "Año del modelo", tipo: "select", required: true, options: aniosStr },
         { name: "provincia", label: "Provincia donde circula", tipo: "select", required: true, options: provincias },
-        { name: "cp", label: "Código postal", required: true, placeholder: "1407" },
+        { name: "cp", label: "Código postal", required: true, placeholder: "1407", tipo: "number", inputMode: "numeric", min: 1000, max: 9999 },
       ],
     },
     {
       titulo: "Datos personales",
       campos: [
         { name: "tipoDoc", label: "Tipo de documento", tipo: "select", required: true, options: ["DNI", "CUIT", "Pasaporte"] },
-        { name: "nroDoc", label: "Número de documento", required: true, placeholder: "Sin puntos" },
-        { name: "nacimiento", label: "Fecha de nacimiento", tipo: "date", required: true },
+        { name: "nroDoc", label: "Número de documento", required: true, placeholder: "Sin puntos", inputMode: "numeric", pattern: "[0-9]{6,11}" },
+        { name: "nacimiento", label: "Fecha de nacimiento", tipo: "date", required: true, max: new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split("T")[0] },
       ],
     },
     contacto,
@@ -104,7 +112,7 @@ export const formConfigs: Record<string, Seccion[]> = {
         { name: "ambientes", label: "Cantidad de ambientes", tipo: "select", required: true, options: ["1", "2", "3", "4", "5 o más"] },
         { name: "provincia", label: "Provincia", tipo: "select", required: true, options: provincias },
         { name: "localidad", label: "Localidad", required: true, placeholder: "Tu localidad" },
-        { name: "cp", label: "Código postal", required: true, placeholder: "1407" },
+        { name: "cp", label: "Código postal", required: true, placeholder: "1407", tipo: "number", inputMode: "numeric", min: 1000, max: 9999 },
         { name: "alarma", label: "¿Tiene alarma?", tipo: "select", options: siNo },
       ],
     },

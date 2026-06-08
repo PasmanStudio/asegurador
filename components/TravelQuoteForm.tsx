@@ -25,12 +25,19 @@ export default function TravelQuoteForm() {
     const f = new FormData(e.currentTarget);
     const get = (k: string) => (f.get(k) ? String(f.get(k)).trim() : "");
 
+    // Formatear fechas ISO a dd/mm/yyyy para lectura humana en WhatsApp.
+    const fmtFecha = (d: string) => {
+      const m = d.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      return m ? `${m[3]}/${m[2]}/${m[1]}` : d;
+    };
+
     const detalle = [
-      `Destino: ${get("destino")}`,
-      `Salida: ${get("desde")}`,
-      `Regreso: ${get("hasta")}`,
-      `Pasajeros: ${get("pasajeros")}`,
-      `Edad del mayor: ${get("edadMayor")}`,
+      `*DATOS DEL VIAJE*`,
+      `  • Destino: ${get("destino")}`,
+      `  • Salida: ${fmtFecha(get("desde"))}`,
+      `  • Regreso: ${fmtFecha(get("hasta"))}`,
+      `  • Cantidad de pasajeros: ${get("pasajeros")}`,
+      `  • Edad del pasajero mayor: ${get("edadMayor")} años`,
     ].join("\n");
 
     const payload = {
@@ -69,10 +76,10 @@ export default function TravelQuoteForm() {
         <legend className="px-2 text-base font-semibold text-brand-700">Tu viaje</legend>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Destino" name="destino" placeholder="Europa, Brasil, EE.UU…" required />
-          <Field label="Cantidad de pasajeros" name="pasajeros" type="number" placeholder="2" required />
-          <Field label="Fecha de salida" name="desde" type="date" required />
-          <Field label="Fecha de regreso" name="hasta" type="date" required />
-          <Field label="Edad del pasajero mayor" name="edadMayor" type="number" placeholder="45" required />
+          <Field label="Cantidad de pasajeros" name="pasajeros" type="number" placeholder="2" min={1} max={20} required />
+          <Field label="Fecha de salida" name="desde" type="date" min={new Date().toISOString().split("T")[0]} required />
+          <Field label="Fecha de regreso" name="hasta" type="date" min={new Date().toISOString().split("T")[0]} required />
+          <Field label="Edad del pasajero mayor" name="edadMayor" type="number" placeholder="45" min={1} max={120} required />
         </div>
       </fieldset>
 
@@ -135,17 +142,11 @@ const fieldClass =
   "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100";
 
 function Field({
-  label,
-  name,
-  type = "text",
-  placeholder,
-  required,
+  label, name, type = "text", placeholder, required, min, max,
 }: {
-  label: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-  required?: boolean;
+  label: string; name: string; type?: string;
+  placeholder?: string; required?: boolean;
+  min?: string | number; max?: string | number;
 }) {
   return (
     <div>
@@ -153,11 +154,9 @@ function Field({
         {label} {required && <span className="text-accent-600">*</span>}
       </label>
       <input
-        id={name}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        required={required}
+        id={name} name={name} type={type}
+        placeholder={placeholder} required={required}
+        min={min} max={max}
         className={fieldClass}
       />
     </div>
