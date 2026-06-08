@@ -4,6 +4,7 @@ import { site, getRamo, waLink } from "@/lib/site";
 import RamoCard from "@/components/RamoCard";
 import CompanyLogos from "@/components/CompanyLogos";
 import Button from "@/components/ui/Button";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 const beneficios = [
   {
@@ -70,13 +71,16 @@ export default function Home() {
               ))}
             </ul>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href="/cotizar" variant="primary">
+              {/* Blanco sólido sobre el hero rosado → máximo contraste (heroPrimary) */}
+              <Button href="/cotizar" variant="heroPrimary">
                 Cotizar ahora
               </Button>
+              {/* Verde WhatsApp → reconocible al instante, contrasta limpio con el magenta */}
               <Button
                 href={waLink("Hola Sabri, quiero asesorarme sobre un seguro.")}
-                variant="heroSecondary"
+                variant="whatsapp"
               >
+                <WhatsAppIcon className="h-5 w-5" />
                 Hablar por WhatsApp
               </Button>
             </div>
@@ -85,8 +89,8 @@ export default function Home() {
           {/* Foto de Sabrina */}
           <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/20 lg:max-w-md">
             <Image
-              src="/home.jpg"
-              alt="Sabrina Descalzi, Productora Asesora de Seguros"
+              src="/sabrina-oficina.webp"
+              alt="Sabrina Descalzi, Productora Asesora de Seguros, en su oficina"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
