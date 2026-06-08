@@ -73,7 +73,7 @@ export default function SobreMiPage() {
         <p className="mt-2 text-brand-50">Sin compromiso y a tu medida.</p>
         <Link
           href="/contacto"
-          className="mt-6 inline-block rounded-full bg-accent-500 px-6 py-3 font-semibold transition-colors hover:bg-accent-600"
+          className="mt-6 inline-block rounded-full bg-white px-6 py-3 font-semibold text-brand-700 shadow-md transition-colors hover:bg-brand-50"
         >
           Contactarme
         </Link>

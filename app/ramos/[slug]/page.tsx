@@ -108,7 +108,7 @@ export default async function RamoPage({ params }: Props) {
             <div className="mt-6 flex flex-col gap-3">
               <Link
                 href={ramo.cotizable ? `/cotizar/${ramo.slug}` : "/contacto"}
-                className="flex w-full items-center justify-center rounded-full bg-accent-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-accent-600"
+                className="flex w-full items-center justify-center rounded-full bg-white px-6 py-3 font-semibold text-brand-700 shadow-md transition-colors hover:bg-brand-50"
               >
                 {ramo.cotizable ? `Cotizar ${ramo.nombre.toLowerCase()}` : "Pedir cotización"}
               </Link>
@@ -116,7 +116,7 @@ export default async function RamoPage({ params }: Props) {
                 href={waLink(`Hola Sabri, quiero cotizar ${ramo.nombre}.`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex w-full items-center justify-center gap-2 rounded-full border border-white/40 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/15"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-semibold text-white transition-colors hover:brightness-95"
               >
                 Hablar por WhatsApp
               </a>

@@ -226,7 +226,7 @@ export default function Home() {
             Pedí tu cotización online o escribime y te asesoro sin compromiso.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Button href="/cotizar" variant="primary">
+            <Button href="/cotizar" variant="heroPrimary">
               Cotizar ahora
             </Button>
             <Button href="/contacto" variant="heroSecondary">
