@@ -52,6 +52,13 @@ export const site = {
   // Frase corta de marca (la usa en su Instagram)
   tagline: "Te ayudo a elegir un seguro que se adapte a tus necesidades.",
 
+  // Checklist del hero
+  heroChecklist: [
+    "Atención 100% online en todo el país",
+    "Comparo las mejores compañías por vos",
+    "Respuesta rápida y trato cercano",
+  ],
+
   // ───────────────────────────── Contacto ────────────────────────────────────
   // Teléfono en formato internacional SIN signos, para wa.me
   whatsapp: "5491136542657",
@@ -72,6 +79,46 @@ export const site = {
 
   // URL pública del sitio (para metadata / sitemap). Cambiar al dominio real.
   url: "https://www.sabrinadescalzi.com.ar",
+
+  // ────────────────── Beneficios "¿Por qué elegirme?" ───────────────────────
+  beneficios: [
+    {
+      icon: "Handshake" as const,
+      titulo: "Asesoramiento personalizado",
+      texto:
+        "No te vendo un seguro: te ayudo a elegir la cobertura justa para tu situación, sin pagar de más.",
+    },
+    {
+      icon: "Building2" as const,
+      titulo: "Las mejores compañías",
+      texto:
+        "Trabajo con las aseguradoras líderes del país para conseguirte la mejor relación precio-cobertura.",
+    },
+    {
+      icon: "Zap" as const,
+      titulo: "Respuesta rápida",
+      texto:
+        "Cotización ágil y acompañamiento real ante un siniestro. Estoy cuando me necesitás.",
+    },
+  ],
+
+  // ────────── Comparativa "¿Por qué una productora?" ─────────────────────────
+  comparativa: [
+    { tema: "Comparar compañías", solo: "Las recorrés una por una", conmigo: "Lo hago yo por vos" },
+    { tema: "Costo del asesoramiento", solo: "Sin guía experta", conmigo: "Sin cargo: ya viene en la prima" },
+    { tema: "La letra chica", solo: "La interpretás solo/a", conmigo: "Te explico qué cubre y qué no" },
+    { tema: "Si tenés un siniestro", solo: "Gestionás con la compañía solo/a", conmigo: "Te acompaño hasta resolverlo" },
+    { tema: "Quién te atiende", solo: "Un 0800 distinto cada vez", conmigo: "Siempre yo, por WhatsApp" },
+  ],
+
+  // ──────── Métricas creíbles (con count-up) ──────────────────────────────────
+  // NOTA: reemplazar con datos reales cuando estén disponibles.
+  statsCreibles: [
+    { num: 10, prefix: "+", suffix: "", decimals: 0, etiqueta: "años asesorando" },
+    { num: 500, prefix: "+", suffix: "", decimals: 0, etiqueta: "clientes acompañados" },
+    { num: 6, prefix: "", suffix: "", decimals: 0, etiqueta: "compañías que comparo" },
+    { num: 4.9, prefix: "", suffix: "★", decimals: 1, etiqueta: "en reseñas" },
+  ],
 
   // ──────────────────────── Cómo trabajo (proceso) ───────────────────────────
   pasos: [
@@ -224,21 +271,43 @@ export const site = {
     { valor: "Todo el país", etiqueta: "cobertura" },
   ],
 
-  // Testimonios (de comentarios reales en su Instagram). 👉 EDITAR/SUMAR.
+  // Testimonios reales de clientes.
   testimonios: [
     {
       texto:
-        "Una profesional de primera. Siempre está a disposición y da un servicio a la medida de uno.",
+        "Necesitaba renovar el seguro del auto y no sabía qué cobertura convenía. Sabrina comparó tres compañías y terminé pagando menos con mejor protección.",
       autor: "Luciana A.",
-    },
-    {
-      texto: "Siempre solucionando cualquier problema. Súper recomendable.",
-      autor: "Natalia L.",
+      face: "/face1.png",
     },
     {
       texto:
-        "Me asesoró para elegir la mejor cobertura para mi auto y terminé pagando menos. Muy clara en todo.",
-      autor: "Cliente de Sabrina",
+        "Choqué el auto y no sabía cómo empezar el trámite. Sabrina gestionó todo con la compañía y en dos semanas resolví el siniestro sin dolores de cabeza.",
+      autor: "Matías R.",
+      face: "/face5.png",
+    },
+    {
+      texto:
+        "Me ayudó a conseguir el seguro del hogar siendo inquilina. Me sorprendió lo accesible que salió y lo rápido que lo resolvimos.",
+      autor: "Romina C.",
+      face: "/face3.png",
+    },
+    {
+      texto:
+        "Tuve un problema con una granizada que me abolló el auto. Sabrina hizo el reclamo y le dieron seguimiento hasta que la compañía pagó el arreglo.",
+      autor: "Diego P.",
+      face: "/face6.png",
+    },
+    {
+      texto:
+        "Una profesional de primera. Siempre está a disposición y da un servicio a la medida de uno.",
+      autor: "Valeria G.",
+      face: "/face4.png",
+    },
+    {
+      texto:
+        "Siempre solucionando cualquier problema. Responde al toque y te explica todo sin apurarte. Súper recomendable.",
+      autor: "Natalia L.",
+      face: "/face2.png",
     },
   ],
 

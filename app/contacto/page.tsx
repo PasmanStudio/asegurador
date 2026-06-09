@@ -30,6 +30,11 @@ export default function ContactoPage() {
             />
             <ContactItem label="Email" value={site.email} href={`mailto:${site.email}`} />
             <ContactItem label="Ubicación" value={site.ciudad} />
+            <ContactItem
+              label="Instagram"
+              value="@sabrinadescalzi.ar"
+              href={site.instagram}
+            />
             <ContactItem label="Matrícula" value={site.matriculaSSN} />
           </ul>
         </div>
