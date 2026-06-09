@@ -59,7 +59,7 @@ export default function SobreMiPage() {
           medida de uno.”
         </blockquote>
         <figcaption className="mt-2 text-sm font-medium text-brand-700">
-          — Clienta de Sabrina
+          — Luciana A.
         </figcaption>
       </figure>
 

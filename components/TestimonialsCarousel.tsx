@@ -55,11 +55,11 @@ export default function TestimonialsCarousel({ testimonios }: { testimonios: Tes
               <blockquote className="mt-3 flex-1 text-slate-700">"{t.texto}"</blockquote>
               <figcaption className="mt-4 flex items-center gap-3">
                 {t.face ? (
-                  <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full">
-                    <Image src={t.face} alt={t.autor} fill className="object-cover" sizes="40px" />
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full">
+                    <Image src={t.face} alt={t.autor} fill className="object-cover" sizes="56px" />
                   </div>
                 ) : (
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-100 font-display text-sm font-bold text-brand-700">
+                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand-100 font-display text-sm font-bold text-brand-700">
                     {initials}
                   </span>
                 )}
