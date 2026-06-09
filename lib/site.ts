@@ -277,13 +277,13 @@ export const site = {
       texto:
         "Necesitaba renovar el seguro del auto y no sabía qué cobertura convenía. Sabrina comparó tres compañías y terminé pagando menos con mejor protección.",
       autor: "Luciana A.",
-      face: "/face1.png",
+      face: "/face5.png",
     },
     {
       texto:
         "Choqué el auto y no sabía cómo empezar el trámite. Sabrina gestionó todo con la compañía y en dos semanas resolví el siniestro sin dolores de cabeza.",
       autor: "Matías R.",
-      face: "/face5.png",
+      face: "/face4.png",
     },
     {
       texto:
@@ -295,19 +295,19 @@ export const site = {
       texto:
         "Tuve un problema con una granizada que me abolló el auto. Sabrina hizo el reclamo y le dieron seguimiento hasta que la compañía pagó el arreglo.",
       autor: "Diego P.",
-      face: "/face6.png",
+      face: "/face2.png",
     },
     {
       texto:
         "Una profesional de primera. Siempre está a disposición y da un servicio a la medida de uno.",
       autor: "Valeria G.",
-      face: "/face4.png",
+      face: "/face6.png",
     },
     {
       texto:
         "Siempre solucionando cualquier problema. Responde al toque y te explica todo sin apurarte. Súper recomendable.",
       autor: "Natalia L.",
-      face: "/face2.png",
+      face: "/face1.png",
     },
   ],
 
