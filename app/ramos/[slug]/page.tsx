@@ -74,7 +74,7 @@ export default async function RamoPage({ params }: Props) {
           <p className="mt-6 text-lg leading-relaxed text-slate-700">{ramo.descripcion}</p>
 
           <h2 className="mt-10 text-xl font-semibold text-slate-900">
-            ¿Qué cubre?
+            Algunas de las coberturas
           </h2>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {ramo.coberturas.map((c) => (
