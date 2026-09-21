@@ -77,8 +77,8 @@ export const site = {
   //    "https://calendly.com/tu-usuario/llamada-30min"
   calendly: "",
 
-  // URL pública del sitio (para metadata / sitemap). Cambiar al dominio real.
-  url: "https://www.sabrinadescalzi.com.ar",
+  // URL pública del sitio (para metadata, OG image, sitemap y robots).
+  url: "https://www.sabrinadescalziseguros.com",
 
   // ────────────────── Beneficios "¿Por qué elegirme?" ───────────────────────
   beneficios: [

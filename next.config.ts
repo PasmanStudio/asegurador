@@ -66,6 +66,29 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react"],
   },
 
+  /**
+   * Canonicaliza el dominio. Vercel sirve el sitio tanto en el dominio propio
+   * como en el <proyecto>.vercel.app que asigna por defecto, y ambos devuelven
+   * 200. Eso hace que, si alguien comparte el link de vercel.app, el preview de
+   * Instagram/WhatsApp muestre "vercel.app" como dominio, y que Google vea dos
+   * copias del mismo sitio (contenido duplicado).
+   *
+   * Con este redirect, cualquier acceso por *.vercel.app termina en el dominio
+   * real. Solo se aplica en produccion: en los deploys de preview VERCEL_ENV
+   * vale "preview", asi que las URLs de prueba de cada rama siguen funcionando.
+   */
+  async redirects() {
+    if (process.env.VERCEL_ENV !== "production") return [];
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "(?<vercelHost>.*[.]vercel[.]app)" }],
+        destination: "https://www.sabrinadescalziseguros.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {
