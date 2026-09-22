@@ -104,9 +104,11 @@ export default function PrivacidadPage() {
         <div>
           <h2 className="text-xl font-semibold text-slate-900">7. Cookies y analítica</h2>
           <p className="mt-2">
-            Este sitio puede utilizar cookies y herramientas de medición de tráfico (por
-            ejemplo, Google Analytics) con fines estadísticos, para mejorar la experiencia
-            de navegación. No se utilizan para identificarte personalmente.
+            Usamos Vercel Web Analytics para medir el tráfico del sitio (páginas
+            visitadas, origen de la visita, país y tipo de dispositivo) con fines
+            estadísticos, para entender qué contenidos son útiles. No utiliza cookies
+            ni te identifica personalmente: los datos se registran de forma agregada y
+            anónima.
           </p>
         </div>
 

@@ -4,7 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import Analytics from "@/components/Analytics";
+import GoogleAnalytics from "@/components/Analytics";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { site } from "@/lib/site";
 import { jsonLdScript } from "@/lib/jsonld";
 
@@ -88,7 +89,8 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppButton />
-        <Analytics />
+        <GoogleAnalytics />
+        <VercelAnalytics />
       </body>
     </html>
   );
