@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import RamoIcon from "@/components/ui/RamoIcon";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Cotizá tu seguro",
   description:
     "Elegí qué querés asegurar y cotizá online: auto, moto, hogar, asistencia al viajero y más.",
-};
+  path: "/cotizar",
+});
 
 export default function CotizarHubPage() {
   return (

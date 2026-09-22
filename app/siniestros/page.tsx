@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
-import { site, waLink } from "@/lib/site";
+import { waLink } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import Button from "@/components/ui/Button";
 import { LifeBuoy, FileText, Phone } from "lucide-react";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Ya soy cliente / Tuve un siniestro",
   description:
     "¿Tuviste un siniestro o ya sos cliente y tenés una consulta? Te acompaño en todo el proceso. Escribime y lo resolvemos.",
-  alternates: { canonical: "/siniestros" },
-};
+  path: "/siniestros",
+});
 
 const queTenerListo = [
   "Tu número de póliza (si lo tenés a mano).",

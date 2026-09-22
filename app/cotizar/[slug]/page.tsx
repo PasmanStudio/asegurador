@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { site, getRamo } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, jsonLdScript } from "@/lib/jsonld";
 import RamoIcon from "@/components/ui/RamoIcon";
 import { getFormConfig } from "@/lib/cotizador-forms";
 import ProductQuoteForm from "@/components/ProductQuoteForm";
@@ -17,10 +19,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const ramo = getRamo(slug);
   if (!ramo) return {};
-  return {
+  return pageMetadata({
     title: `Cotizar ${ramo.nombre}`,
     description: ramo.resumen,
-  };
+    path: `/cotizar/${slug}`,
+  });
 }
 
 export default async function CotizarRamoPage({ params }: Props) {
@@ -28,8 +31,20 @@ export default async function CotizarRamoPage({ params }: Props) {
   const ramo = getRamo(slug);
   if (!ramo) notFound();
 
+  // Migas de pan: Google muestra "Inicio > Cotizar > Cotizar Seguro de Auto"
+  // en el resultado, en vez de la URL cruda.
+  const breadcrumb = breadcrumbJsonLd(site.url, [
+    { name: "Inicio", path: "/" },
+    { name: "Cotizar", path: "/cotizar" },
+    { name: `Cotizar ${ramo.nombre}`, path: `/cotizar/${ramo.slug}` },
+  ]);
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
+      />
       <Link href="/cotizar" className="text-sm text-brand-600 hover:underline">
         ← Todos los cotizadores
       </Link>

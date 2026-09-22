@@ -1,14 +1,13 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Términos y Condiciones",
   description:
     "Términos de uso del sitio y aclaraciones sobre el rol del Productor Asesor de Seguros.",
-  alternates: { canonical: "/terminos" },
-  robots: { index: true, follow: true },
-};
+  path: "/terminos",
+});
 
 const identidad = `${site.nombreLegal}, Productora Asesora de Seguros inscripta en la Superintendencia de Seguros de la Nación (${site.matriculaSSN})${
   site.cuit ? `, CUIT ${site.cuit}` : ""
