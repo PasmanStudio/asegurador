@@ -35,12 +35,10 @@ export default async function RamoPage({ params }: Props) {
     name: ramo.nombre,
     description: ramo.descripcion,
     areaServed: { "@type": "Country", name: "Argentina" },
-    provider: {
-      "@type": "InsuranceAgency",
-      name: site.nombre,
-      url: site.url,
-      telephone: `+${site.whatsapp}`,
-    },
+    // Referencia por @id a la ficha completa que declara el layout, en vez de
+    // repetir una InsuranceAgency parcial. Sin esto Google detecta dos
+    // entidades distintas en la misma pagina y reparte la senal entre ambas.
+    provider: { "@id": `${site.url}/#productora` },
     // Lista las coberturas como catálogo: Google entiende qué incluye el ramo
     // en vez de leer un párrafo suelto.
     hasOfferCatalog: {
