@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { site, getRamo, waLink } from "@/lib/site";
 import RamoIcon from "@/components/ui/RamoIcon";
-import { jsonLdScript } from "@/lib/jsonld";
+import { breadcrumbJsonLd, jsonLdScript } from "@/lib/jsonld";
+import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -15,12 +16,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const ramo = getRamo(slug);
   if (!ramo) return {};
-  return {
+  return pageMetadata({
     title: ramo.nombre,
     description: ramo.resumen,
-    alternates: { canonical: `/ramos/${slug}` },
-    openGraph: { title: ramo.nombre, description: ramo.resumen },
-  };
+    path: `/ramos/${slug}`,
+  });
 }
 
 export default async function RamoPage({ params }: Props) {
@@ -32,20 +32,44 @@ export default async function RamoPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "Service",
     serviceType: ramo.nombre,
+    name: ramo.nombre,
     description: ramo.descripcion,
-    areaServed: "AR",
+    areaServed: { "@type": "Country", name: "Argentina" },
     provider: {
       "@type": "InsuranceAgency",
       name: site.nombre,
+      url: site.url,
       telephone: `+${site.whatsapp}`,
     },
+    // Lista las coberturas como catálogo: Google entiende qué incluye el ramo
+    // en vez de leer un párrafo suelto.
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `Coberturas de ${ramo.nombre}`,
+      itemListElement: ramo.coberturas.map((c) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: c },
+      })),
+    },
   };
+
+  // Migas de pan: Google muestra "Inicio > Seguros > Seguro de Auto" en el
+  // resultado, en vez de la URL cruda.
+  const breadcrumb = breadcrumbJsonLd(site.url, [
+    { name: "Inicio", path: "/" },
+    { name: "Seguros", path: "/ramos" },
+    { name: ramo.nombre, path: `/ramos/${ramo.slug}` },
+  ]);
 
   return (
     <article className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
       />
       <Link href="/ramos" className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:underline">
         ← Todos los seguros

@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
 import { faqs } from "@/lib/faqs";
 import { jsonLdScript } from "@/lib/jsonld";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Preguntas frecuentes",
   description:
     "Respuestas sobre seguros, cotizaciones y cómo trabaja un productor asesor de seguros en Argentina.",
-};
+  path: "/preguntas-frecuentes",
+});
 
 const faqJsonLd = {
   "@context": "https://schema.org",

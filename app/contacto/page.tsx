@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import { site, waLink } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import LeadForm from "@/components/LeadForm";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Contacto",
   description:
     "Contactate para asesorarte o pedir una cotización de seguro. Respondo por WhatsApp, teléfono o email.",
-};
+  path: "/contacto",
+});
 
 export default function ContactoPage() {
   return (

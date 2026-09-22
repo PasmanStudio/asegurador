@@ -15,3 +15,28 @@ const ESCAPES: Record<string, string> = {
 export function jsonLdScript(data: unknown): string {
   return JSON.stringify(data).replace(/[<>&]/g, (c) => ESCAPES[c]);
 }
+
+/**
+ * Arma un BreadcrumbList de schema.org. Google lo usa para mostrar la ruta de
+ * navegacion (Inicio > Blog > Autos > Articulo) en vez de la URL cruda en los
+ * resultados de busqueda, lo que mejora el CTR.
+ *
+ * `items` va en orden, del nivel mas general al mas especifico. Las rutas son
+ * relativas (empiezan con "/") y se completan con la URL del sitio.
+ */
+export function breadcrumbJsonLd(
+  base: string,
+  items: { name: string; path: string }[],
+) {
+  const root = base.replace(/\/$/, "");
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: `${root}${item.path}`,
+    })),
+  };
+}

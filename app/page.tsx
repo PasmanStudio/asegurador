@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Handshake, Building2, Zap } from "lucide-react";
 import { site, waLink } from "@/lib/site";
@@ -7,6 +8,16 @@ import Button from "@/components/ui/Button";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import CountUpStats from "@/components/CountUpStats";
 import TestimonialsCarousel from "@/components/TestimonialsCarousel";
+
+/**
+ * El home hereda título, descripción y OG del layout (ya están pensados para
+ * la portada). Lo único que le falta es la canónica, que Next no genera sola:
+ * sin ella, si alguien enlaza el sitio con ?utm_source=... Google puede tratar
+ * esa URL como una página distinta.
+ */
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const beneficiosIcons = [Handshake, Building2, Zap];
 

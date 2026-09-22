@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import CompanyLogos from "@/components/CompanyLogos";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Sobre mí",
   description: `Conocé a ${site.nombre}, Productora Asesora de Seguros matriculada en Argentina con más de 10 años de experiencia.`,
-};
+  path: "/sobre-mi",
+});
 
 export default function SobreMiPage() {
   return (

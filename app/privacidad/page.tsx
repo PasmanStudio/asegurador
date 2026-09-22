@@ -1,13 +1,12 @@
-import type { Metadata } from "next";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Política de Privacidad",
   description:
     "Cómo se tratan tus datos personales en este sitio, según la Ley 25.326 de Protección de Datos Personales.",
-  alternates: { canonical: "/privacidad" },
-  robots: { index: true, follow: true },
-};
+  path: "/privacidad",
+});
 
 const identidad = `${site.nombreLegal}, ${site.matriculaSSN}${
   site.cuit ? ` — CUIT ${site.cuit}` : ""
